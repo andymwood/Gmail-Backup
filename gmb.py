@@ -113,6 +113,12 @@ def _getMailIMAPDate(mail):
     return d
 
 def _convertTime(t):
+    # Workaround a GMail issue that appeared about 16-09-2016
+    # GMail is failing on searches where the time format
+    # is 'DD-Mmm-YYYY HH:MM:SS +HHMM' (the IMAP INTERNALDATE
+    # representation)
+    return time.strftime('%d-%b-%Y', time.strptime(t, '%Y%m%d'))
+
     t = time.mktime(time.strptime(t, '%Y%m%d'))
     return imaplib.Time2Internaldate(t)
 
