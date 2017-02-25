@@ -2,9 +2,9 @@
 # -*-  coding: utf-8 -*-
 #
 #   Gmail Backup library
-#   
+#
 #   Copyright © 2008, 2009, 2010 Jan Svec <honza.svec@gmail.com> and Filip Jurcicek <filip.jurcicek@gmail.com>
-#   
+#
 #   This file is part of Gmail Backup.
 #
 #   Gmail Backup is free software: you can redistribute it and/or modify it
@@ -148,7 +148,7 @@ def _getMsgInitials(msg):
 def _getMailInitials(mail):
     msg = email.message_from_string(mail)
     return _getMsgInitials(msg)
-    
+
 
 def _trimDate(d):
     def trim(mi, va, ma):
@@ -279,7 +279,7 @@ class GBNotifier(object):
 
     def nError(self, msg):
         pass
-    
+
     def nLog(self, msg):
         pass
 
@@ -644,7 +644,7 @@ Possible causes are:
         self.lang = lang
         self.ALL_MAILS = self.MAILBOX_NAMES[lang][0]
         self.TRASH = self.MAILBOX_NAMES[lang][1]
-    
+
     def connect(self, noguess=False):
         self.con = MyIMAP4_SSL('imap.gmail.com', 993)
         self.con.setNotifier(self.notifier)
@@ -714,7 +714,7 @@ Possible causes are:
             self._lastFetched = num
             self._lastFetchedMsg = mail
             return mail
-    
+
     def search(self, where):
         self._lastSearch = where
         typ, numbers = self._call(self.con.search, None, *where)
@@ -1270,7 +1270,7 @@ class GMailBackup(object):
         storage.updateStamp(last_time)
 
         self.notifier.nBackup(True, self.username, fn)
-    
+
     def restoreLabels(self, assignment, min_date, max_date):
         self.connection.select(self.connection.ALL_MAILS)
 
