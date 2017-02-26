@@ -61,8 +61,8 @@ try:
 except ImportError:
     from md5 import md5
 
-GMB_REVISION = u'$Revision$'
-GMB_DATE = u'$Date$'
+GMB_REVISION = u'$Revision: 15 $'
+GMB_DATE = u'$Date: 2011-03-07 21:19:49 +0100 (Po, 07 bře 2011) $'
 
 GMB_REVISION = GMB_REVISION[11:-2]
 GMB_DATE = GMB_DATE[7:-2].split()[0]
