@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*-  coding: utf-8 -*-
-#   
+#
 #   Gmail Backup GUI
-#   
+#
 #   Copyright © 2008, 2009, 2010 Jan Svec <honza.svec@gmail.com> and Filip Jurcicek <filip.jurcicek@gmail.com>
-#   
+#
 #   This file is part of Gmail Backup.
 #
 #   Gmail Backup is free software: you can redistribute it and/or modify it
@@ -50,7 +50,7 @@ GMB_GUI_DATE = u'$Date$'
 
 GMB_GUI_REVISION = GMB_GUI_REVISION[11:-2]
 GMB_GUI_DATE = GMB_GUI_DATE[7:-2].split()[0]
- 
+
 MAX_REVISION = str(max(int(GMB_GUI_REVISION), int(gmail_backup.GMB_REVISION)))
 MAX_DATE = max(GMB_GUI_DATE, gmail_backup.GMB_DATE)
 
@@ -100,22 +100,22 @@ class InterruptableThread(threading.Thread):
         if res == 0:
             raise ValueError("nonexistent thread id")
         elif res > 1:
-            # """if it returns a number greater than one, you're in trouble, 
+            # """if it returns a number greater than one, you're in trouble,
             # and you should call it again with exc=NULL to revert the effect"""
             ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, 0)
             raise SystemError("PyThreadState_SetAsyncExc failed")
-     
+
     def raise_exc(self, excobj):
         assert self.isAlive(), "thread must be started"
         for tid, tobj in threading._active.items():
             if tobj is self:
                 self._async_raise(tid, excobj)
                 return
-        
-        # the thread was alive when we entered the loop, but was not found 
+
+        # the thread was alive when we entered the loop, but was not found
         # in the dict, hence it must have been already terminated. should we raise
         # an exception here? silently ignore?
-    
+
     def terminate(self):
         # must raise the SystemExit type, instead of a SystemExit() instance
         # due to a bug in PyThreadState_SetAsyncExc
@@ -151,7 +151,7 @@ class MainPanel(wx.Panel):
     def __init__(self, *args, **kwargs):
 
         self._prevLocale = 'C'
-        
+
         wx.Panel.__init__(self, *args, **kwargs)
 
         colour = wx.SystemSettings.GetColour(wx.SYS_COLOUR_WINDOW)
@@ -160,7 +160,7 @@ class MainPanel(wx.Panel):
         logo = wx.StaticBitmap(self, wx.ID_ANY, wx.Bitmap(os.path.join(os.path.dirname(sys.argv[0]), 'gmb.gif')))
 
         self.revision    = wx.StaticText(self, -1, _("revision %s (%s)") % (MAX_REVISION, MAX_DATE))
-   
+
         stGmailLogin    = wx.StaticText(self, -1, _("Gmail login:\n(full email address)"))
         self.login      = wx.TextCtrl(self, -1, size=(300,-1))
 
@@ -189,15 +189,15 @@ You can write them either as $YEAR or ${YEAR}.'''))
         else:
             self.onlyNewest = wx.CheckBox(self, -1, label=_("Newest emails only"))
         self.onlyNewest.SetValue(True)
-        
+
         stSince         = wx.StaticText(self, -1, _("Since date:"))
         self.since      = wx.DatePickerCtrl(self, -1, size=(300, -1))
         self.since.Disable()
-        
+
         stBefore          = wx.StaticText(self, -1, _("Before date:"))
         self.before       = wx.DatePickerCtrl(self, -1, size=(300, -1))
         self.before.Disable()
-        
+
         line1           = wx.StaticLine(self, -1, size=(20,-1), style=wx.LI_HORIZONTAL)
         self.log        = wx.TextCtrl(self, -1, size=(600,150),  style=wx.TE_MULTILINE|wx.TE_WORDWRAP|wx.TE_READONLY|wx.HSCROLL|wx.VSCROLL|wx.ALWAYS_SHOW_SB)
         self.progress   = wx.Gauge(self, -1, size=(300,10), style=wx.GA_HORIZONTAL)
@@ -214,24 +214,24 @@ You can write them either as $YEAR or ${YEAR}.'''))
         #btnAbout    = wx.Button(self,  wx.ID_ABOUT)
         self.btnNewVer   = wx.Button(self,  -1,  _("New Versions"))
         self.btnExit     = wx.Button(self,  wx.ID_EXIT, _('Quit'))
-        
+
         szrGBS = wx.GridBagSizer(15, 15)
         szrGBS.Add(stGmailLogin, (1, 1))
-        szrGBS.Add(self.login, (1, 2))                
+        szrGBS.Add(self.login, (1, 2))
 
         szrGBS.Add(stGnailPassword, (2, 1))
-        szrGBS.Add(self.password, (2, 2))       
+        szrGBS.Add(self.password, (2, 2))
 
         szrGBS.Add(stBckpFldr, (3, 1))
-        szrGBS.Add(self.folder, (3, 2))       
-        szrGBS.Add(self.btnSlctFolder, (3, 3))       
-    
+        szrGBS.Add(self.folder, (3, 2))
+        szrGBS.Add(self.btnSlctFolder, (3, 3))
+
         szrGBS.Add(self.onlyNewest, (4, 3), (2, 1), wx.ALIGN_CENTER_VERTICAL)
         szrGBS.Add(stSince, (4, 1))
         szrGBS.Add(self.since, (4, 2))
         szrGBS.Add(stBefore, (5, 1))
         szrGBS.Add(self.before, (5, 2))
-        
+
         szrHorizontal3 = wx.BoxSizer(wx.HORIZONTAL)
         szrHorizontal3.Add(self.btnBackup, 0, wx.ALIGN_CENTER|wx.ALL, 5)
         szrHorizontal3.Add(self.btnRestore, 0, wx.ALIGN_CENTER|wx.ALL, 5)
@@ -240,35 +240,35 @@ You can write them either as $YEAR or ${YEAR}.'''))
         szrHorizontal3.Add(self.btnExit, 0, wx.ALIGN_CENTER|wx.LEFT, 55)
 
         szrHorizontal5 = wx.BoxSizer(wx.HORIZONTAL)
-        szrHorizontal5.Add(self.message, 0, wx.ALIGN_LEFT|wx.ALIGN_CENTER_VERTICAL, 0)     
+        szrHorizontal5.Add(self.message, 0, wx.ALIGN_LEFT|wx.ALIGN_CENTER_VERTICAL, 0)
         szrHorizontal5.Add(self.progress, 0, wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 0)
-        
+
         szrHorizontal4 = wx.BoxSizer(wx.VERTICAL)
-        szrHorizontal4.Add(self.log, 0, wx.ALIGN_LEFT, 30)     
+        szrHorizontal4.Add(self.log, 0, wx.ALIGN_LEFT, 30)
         szrHorizontal4.Add(szrHorizontal5, 0, wx.ALIGN_CENTER_HORIZONTAL|wx.ALL, 0)
 
         szrVertical = wx.BoxSizer(wx.VERTICAL)
         szrVertical.Add(logo, 0, wx.ALIGN_CENTER|wx.TOP, 25)
         szrVertical.Add(self.revision, 0, wx.ALIGN_CENTER|wx.BOTTOM, 0)
-        
+
         szrVertical.Add(szrGBS, 0, wx.ALIGN_CENTER|wx.ALL, 5)
-        szrVertical.Add(line1, 0, wx.GROW|wx.ALIGN_CENTER_VERTICAL|wx.RIGHT|wx.TOP, 5)     
+        szrVertical.Add(line1, 0, wx.GROW|wx.ALIGN_CENTER_VERTICAL|wx.RIGHT|wx.TOP, 5)
         szrVertical.Add(szrHorizontal4, 0, wx.ALIGN_CENTER_HORIZONTAL|wx.ALL, 15)
-        szrVertical.Add(line2, 0, wx.GROW|wx.ALIGN_CENTER_VERTICAL|wx.RIGHT|wx.TOP, 5)     
+        szrVertical.Add(line2, 0, wx.GROW|wx.ALIGN_CENTER_VERTICAL|wx.RIGHT|wx.TOP, 5)
         szrVertical.Add(szrHorizontal3, 0, wx.ALIGN_CENTER_HORIZONTAL|wx.ALL, 15)
-        
+
         self.btnSlctFolder.Bind(wx.EVT_BUTTON, self.OnSelectDir)
-        self.btnBackup.Bind(wx.EVT_BUTTON, self.OnBackup)   
+        self.btnBackup.Bind(wx.EVT_BUTTON, self.OnBackup)
         self.btnBackup.SetDefault()
-        self.btnRestore.Bind(wx.EVT_BUTTON, self.OnRestore)   
-        self.btnStop.Bind(wx.EVT_BUTTON, self.OnStop)   
-#        btnAbout.Bind(wx.EVT_BUTTON, self.OnAbout)   
-#        btnHelp.Bind(wx.EVT_BUTTON, self.OnHelp)   
-        self.btnNewVer.Bind(wx.EVT_BUTTON, self.OnNewVer)   
-        self.btnExit.Bind(wx.EVT_BUTTON, self.OnExit)   
-        self.Bind(EVT_UPDATE_LOG, self.OnLogAppend)   
+        self.btnRestore.Bind(wx.EVT_BUTTON, self.OnRestore)
+        self.btnStop.Bind(wx.EVT_BUTTON, self.OnStop)
+#        btnAbout.Bind(wx.EVT_BUTTON, self.OnAbout)
+#        btnHelp.Bind(wx.EVT_BUTTON, self.OnHelp)
+        self.btnNewVer.Bind(wx.EVT_BUTTON, self.OnNewVer)
+        self.btnExit.Bind(wx.EVT_BUTTON, self.OnExit)
+        self.Bind(EVT_UPDATE_LOG, self.OnLogAppend)
         self.onlyNewest.Bind(wx.EVT_CHECKBOX, self.OnOnlyNewest)
-        
+
         self.Refresh()
         self.SetSizer(szrVertical)
         self.SetAutoLayout(True)
@@ -286,7 +286,7 @@ You can write them either as $YEAR or ${YEAR}.'''))
         self.Bind(wx.EVT_TIMER, self.OnTimerRunning)
 
         #self.SetDefaultItem(self.btnBackup)
-        
+
         self.restoreSettings()
 
     def _clearLocale(self):
@@ -308,10 +308,10 @@ You can write them either as $YEAR or ${YEAR}.'''))
         self.btnRestore.Disable()
         self.btnNewVer.Disable()
         self.btnExit.Disable()
-        
+
         self.progress.Enable()
         self.message.Enable()
-        
+
         return
 
     def enableCntrls(self):
@@ -341,7 +341,7 @@ You can write them either as $YEAR or ${YEAR}.'''))
         else:
             self.since.Enable()
             self.before.Enable()
-            
+
     def saveSettings(self):
         settings["login"] = self.login.GetValue()
         settings["folder"] = self.folder.GetValue()
@@ -350,14 +350,14 @@ You can write them either as $YEAR or ${YEAR}.'''))
         settings["before"] = str(self.before.GetValue().FormatISODate())
 
         saveSettings()
-        
+
         return
-    
+
     def restoreSettings(self):
         #read and set
         self.login.SetValue(settings["login"].strip())
         self.folder.SetValue(settings["folder"].strip())
-        
+
         if settings["onlyNewest"].strip() == "True":
             self.onlyNewest.SetValue(True)
             self.since.Disable()
@@ -366,13 +366,13 @@ You can write them either as $YEAR or ${YEAR}.'''))
             self.onlyNewest.SetValue(False)
             self.since.Enable()
             self.before.Enable()
-        
+
         try:
             self.since.SetValue(self.readDate(settings["since"]))
             self.before.SetValue(self.readDate(settings["before"]))
         except:
             pass
-            
+
         return
 
     def readDate(self, snc):
@@ -382,9 +382,9 @@ You can write them either as $YEAR or ${YEAR}.'''))
         d.ParseDate(snc)
 #        d.Set(int(snc[2]), int(snc[1]), int(snc[0]), 1, 1, 1, 1)
 #        print str(d)
-        
+
         return d
-        
+
     def validateInputData(self):
         error = ""
         if not self.login.GetValue():
@@ -393,14 +393,14 @@ You can write them either as $YEAR or ${YEAR}.'''))
             error += _("Enter valid password for your gmail account.\n")
         if not self.folder.GetValue():
             error += _("Enter folder where you want to store your emails.\n")
-        
+
         if error:
             dlg = wx.MessageDialog(self, error, _("Invalid input data"),  style = wx.CANCEL|wx.ICON_ERROR)
             dlg.ShowModal()
             return True
-            
+
         return False
-        
+
     def OnLogAppend(self, event):
         if event.msg is not None:
             msg = '%s\n' % event.msg
@@ -416,7 +416,7 @@ You can write them either as $YEAR or ${YEAR}.'''))
 
     def OnSelectDir(self, event):
         dir = os.path.abspath(self.folder.GetValue().strip())
-        
+
         dlg = wx.DirDialog(self, _("Select a directory for Gmail Backup"), dir, size = (400, 600))
         if dlg.ShowModal() == wx.ID_OK:
             dir = dlg.GetPath()
@@ -441,7 +441,7 @@ You can write them either as $YEAR or ${YEAR}.'''))
     def OnBackup(self, event):
         if self.validateInputData():
             return
-        
+
         username = self.login.GetValue()
         password = self.password.GetValue()
         dirname = self.folder.GetValue()
@@ -449,7 +449,7 @@ You can write them either as $YEAR or ${YEAR}.'''))
 
         if self.onlyNewest.GetValue():
             stamp = True
-        else:    
+        else:
             stamp = False
             if self.since.GetValue():
                 since = self.convertTime(self.since.GetValue())
@@ -467,7 +467,7 @@ You can write them either as $YEAR or ${YEAR}.'''))
         self.disableCntrls()
         self.btnStop.Enable()
         self.timer.Start(200)
-        
+
         self.saveSettings()
 
         return True
@@ -483,9 +483,9 @@ You can write them either as $YEAR or ${YEAR}.'''))
 
     def OnOnlyNewest(self,  event):
         self.enableDates()
-            
+
         return True
-        
+
     def OnRestore(self, event):
         if self.validateInputData():
             return
@@ -497,36 +497,36 @@ You can write them either as $YEAR or ${YEAR}.'''))
             if self.before.GetValue():
                 before = self.convertTimeRestore(self.before.GetValue())
 
-            
+
         username = self.login.GetValue()
         password = self.password.GetValue()
         dirname = self.folder.GetValue()
         b = ThreadedGMailBackup(username, password, self.notifier)
         self.currentThread = b.restore(dirname, since, before)
-        
+
         # desable all necessary controls
         self.disableCntrls()
         self.btnStop.Enable()
         self.timer.Start(200)
-        
+
         self.saveSettings()
 
         return True
-    
+
     def OnStop(self, event):
         try:
             if self.currentThread is not None:
                 self.notifier.nLog(_("Interrupting ..."))
                 self.currentThread.raise_exc(KeyboardInterrupt)
-                
+
         except AssertionError:
             pass
         return True
-    
+
     def OnNewVer(self, event):
         b = ThreadedGMailBackup(None, None, self.notifier)
         self.currentThread = b.reportNewVersion()
-        
+
         # desable all necessary controls
         self.disableCntrls()
         self.btnStop.Enable()
@@ -537,15 +537,15 @@ You can write them either as $YEAR or ${YEAR}.'''))
     def OnExit(self, event):
         self.OnStop(event)
         self.saveSettings()
-        
+
         self.GetParent().Close()
-        
+
         return True
 
 class MainDialog(wx.Frame):
-    def __init__(self, parent, ID, title, 
-        size=wx.DefaultSize, 
-        pos=wx.DefaultPosition, 
+    def __init__(self, parent, ID, title,
+        size=wx.DefaultSize,
+        pos=wx.DefaultPosition,
         style=(wx.DEFAULT_FRAME_STYLE ^ wx.RESIZE_BORDER ^ wx.MAXIMIZE_BOX) | wx.TAB_TRAVERSAL):
 
         wx.Frame.__init__(self, parent, ID, title, pos, size, style = style)
@@ -569,17 +569,17 @@ class MainDialog(wx.Frame):
 
         self.menuHelp.Append(10001, _("&Check new versions"), _("Check new versions of this program"))
         self.Bind(wx.EVT_MENU, self.panel.OnNewVer, id=10001)
-        
+
         self.menuHelp.Append(wx.ID_ABOUT, _("&About"), _("More information about this program"))
         self.Bind(wx.EVT_MENU, self.OnAbout, id=wx.ID_ABOUT)
-        
+
         self.menuBar.Append(self.menuCommands, _("&Commands"));
         self.menuBar.Append(self.menuHelp, _("&Help"));
         self.SetMenuBar(self.menuBar)
-        
+
         # create a status bar at the bottom of the frame
         self.CreateStatusBar()
-        
+
         szrVertical = wx.BoxSizer(wx.VERTICAL)
         szrVertical.Add(self.panel, 0, wx.EXPAND|wx.EXPAND)
 
@@ -588,28 +588,28 @@ class MainDialog(wx.Frame):
         self.SetAutoLayout(True)
         szrVertical.Fit(self)
         self.Centre();
-        
+
     def OnAbout(self, event):
         dlg = AboutBox(MAX_REVISION, MAX_DATE)
         dlg.ShowModal()
-        dlg.Destroy()  
-        
+        dlg.Destroy()
+
         return True
-        
+
     def OnHelp(self, event):
         return True
-  
+
 aboutText = """
 <p align="center">
-    <b>Gmail Backup</b> 
+    <b>Gmail Backup</b>
     <br>
     <br>
     revision %(revision)s (%(revisiondate)s)
 </p>
 
 <p>
-The purpose of this program is to simplify 
-the process of backing up, restoration, or  
+The purpose of this program is to simplify
+the process of backing up, restoration, or
 migration of your emails from your Gmail Account.
 </p>
 
@@ -620,7 +620,7 @@ Copyright (C) 2008-2011 by Jan Svec and Filip Jurcicek
 <p>
 See <a href="http://code.google.com/p/gmail-backup-com/">http://code.google.com/p/gmail-backup-com/</a>
 </p>
-""" 
+"""
 
 class HtmlWindow(wx.html.HtmlWindow):
     def __init__(self, parent, id, size=(600,400)):
@@ -630,7 +630,7 @@ class HtmlWindow(wx.html.HtmlWindow):
 
     def OnLinkClicked(self, link):
         wx.LaunchDefaultBrowser(link.GetHref())
-        
+
 
 class AboutBox(wx.Dialog):
     def __init__(self,  MAX_REVISION, MAX_DATE):
@@ -640,7 +640,7 @@ class AboutBox(wx.Dialog):
 
         colour = wx.SystemSettings.GetColour(wx.SYS_COLOUR_WINDOW)
         self.SetBackgroundColour(colour)
-        
+
         szrVertical = wx.BoxSizer(wx.VERTICAL)
 
         hwin = HtmlWindow(self, -1, size=(400,200))
@@ -655,7 +655,7 @@ class AboutBox(wx.Dialog):
         self.btnOk = wx.Button(self,  wx.ID_OK,  _("Ok"))
         szrVertical.Add(hwin, 0, wx.ALIGN_CENTER|wx.ALL, 15)
         szrVertical.Add(self.btnOk, 0, wx.ALIGN_CENTER|wx.BOTTOM, 15)
-        
+
         self.SetSizer(szrVertical)
         self.SetAutoLayout(True)
         szrVertical.Fit(self)
@@ -685,7 +685,7 @@ def settingsFn():
 
 def settingsMakedirs():
     """Create needed directries to store the config file."""
-    
+
     fn = settingsFn()
     dn = os.path.dirname(fn)
     if not os.path.isdir(dn):
@@ -693,7 +693,7 @@ def settingsMakedirs():
 
 def saveSettings():
     """Save the settings dictionary by pickle module."""
-    
+
     try:
         settings_fn = settingsFn()
         settingsMakedirs()
@@ -702,11 +702,11 @@ def saveSettings():
         fl.close()
     except:
         pass
-    
+
 def loadSettings():
     """Load the settings dictionary by pickle module."""
     global settings
-    
+
     try:
         settings_fn = settingsFn()
         settingsMakedirs()
@@ -716,21 +716,21 @@ def loadSettings():
     except:
         # no settings yet
         pass
-       
-        
+
+
 #############################################################################
 ## test of dialogue
 #############################################################################
 if __name__ == "__main__":
     # load the settings when module is initialised
     loadSettings()
-    
+
     app = wx.PySimpleApp()
-    
+
     dlg = MainDialog(None, -1, TITLE_IDLE)
     dlg.Center()
     app.SetTopWindow(dlg)
     dlg.Show()
 
     app.MainLoop()
-    
+

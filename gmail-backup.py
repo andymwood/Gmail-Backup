@@ -2,9 +2,9 @@
 # -*-  coding: utf-8 -*-
 #
 #   Gmail Backup CLI
-#   
+#
 #   Copyright © 2008, 2009, 2010 Jan Svec <honza.svec@gmail.com> and Filip Jurcicek <filip.jurcicek@gmail.com>
-#   
+#
 #   This file is part of Gmail Backup.
 #
 #   Gmail Backup is free software: you can redistribute it and/or modify it
@@ -31,7 +31,7 @@ GMB_CMD_DATE = u'$Date$'
 
 GMB_CMD_REVISION = GMB_CMD_REVISION[11:-2]
 GMB_CMD_DATE = GMB_CMD_DATE[7:-2].split()[0]
- 
+
 MAX_REVISION = str(max(int(GMB_CMD_REVISION), int(GMB_REVISION)))
 MAX_DATE = max(GMB_CMD_DATE, GMB_DATE)
 
@@ -112,7 +112,7 @@ another ZIP file instead of the Windows binary "gmail-backup.exe".
 Error reporting:
 ================
 
-If you want to report some errors in this software, please use our user support 
+If you want to report some errors in this software, please use our user support
 mailing list:
 
 gmail-backup-com-users@googlegroups.com
@@ -205,11 +205,11 @@ Thanks.
     @ExScript.command
     def list(self, username, password):
         '''List the names and number of messages of GMail IMAP mailboxes.
-        
+
         Usefull for debugging and for gathering information about new supported
         language. If your GMail language is not supported, don't hesitate and
         write us to user support group:
-            
+
             gmail-backup-com-users@googlegroups.com
 
         '''
